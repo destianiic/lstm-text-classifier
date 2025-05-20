@@ -1,7 +1,11 @@
 streamlit
-tensorflow==2.14.0
+tensorflow-cpu==2.14.0
 scikit-learn
 numpy
 pandas
 joblib
 huggingface_hub
+libglib2.0-0
+libsm6
+libxrender1
+libxext6
