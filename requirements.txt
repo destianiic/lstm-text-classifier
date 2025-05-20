@@ -1,0 +1,7 @@
+streamlit
+tensorflow==2.14.0
+scikit-learn
+numpy
+pandas
+joblib
+huggingface_hub
