@@ -1,23 +1,24 @@
 import streamlit as st
-import numpy as np
-import pickle
+from huggingface_hub import hf_hub_download
 from tensorflow.keras.models import load_model
+import joblib
+import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Load model and tokenizer
-model = load_model('/Users/destianiic/Documents/LSTM/model.h5')
-with open('/Users/destianiic/Documents/LSTM/tokenizer.pkl', 'rb') as f:
-    tokenizer = pickle.load(f)
+@st.cache_resource
+def load_model_and_tokenizer():
+    model_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="model.h5")
+    tokenizer_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="tokenizer.pkl")
+    model = load_model(model_path)
+    tokenizer = joblib.load(tokenizer_path)
+    return model, tokenizer
 
-MAX_SEQUENCE_LENGTH = 250
-
-# Define your class labels (adjust the order if needed)
-class_labels = ['Negative', 'Neutral', 'Positive']
+model, tokenizer = load_model_and_tokenizer()
 
 # Streamlit UI
-st.title("🧠 LSTM Text Classifier")
-
-user_input = st.text_area("Enter your news text here:")
+st.title("📰 News Sentiment Classifier")
+text_input = st.text_area("Enter a news headline or paragraph:", height=150)
 
 if st.button("Predict"):
     if user_input.strip():
