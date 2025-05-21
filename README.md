@@ -59,5 +59,5 @@ Ensure you place the downloaded model.keras and tokenizer.pkl files in the model
 
 
 ## 👤 Author
-Destiani I. C.
-GitHub: @destianiic
+#### Destiani I. C.
+#### GitHub: @destianiic
