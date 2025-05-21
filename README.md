@@ -17,20 +17,20 @@ You can try the app directly from your browser:
 - The model will output the predicted sentiment along with the confidence score.
 
 ## 🧠 Model Information
-Algorithm: Long Short-Term Memory (LSTM)
-Dataset: 1500 labeled news samples (500 for each class: Negative, Neutral, Positive)
-Text Preprocessing:
+# Algorithm: Long Short-Term Memory (LSTM)
+# Dataset: 1500 labeled news samples (500 for each class: Negative, Neutral, Positive)
+# Text Preprocessing:
   - Lowercasing
   - Removing special characters
   - Stopword removal (Indonesian, using Sastrawi)
   - Tokenization and sequence padding
-Tokenizer: Trained and saved using Tokenizer from tensorflow.keras.preprocessing.text
-Model Architecture:
+# Tokenizer: Trained and saved using Tokenizer from tensorflow.keras.preprocessing.text
+# Model Architecture:
   - Embedding Layer
   - SpatialDropout1D
   - LSTM Layer
   - Dense Output Layer with Softmax
-Training:
+# Training:
   - Epochs: 5
   - Batch size: 64
   - Validation split: 0.2
