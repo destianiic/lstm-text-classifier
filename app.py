@@ -5,6 +5,10 @@ import joblib
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+# Constants
+MAX_SEQUENCE_LENGTH = 250
+class_labels = ['Negative', 'Neutral', 'Positive']
+
 # Load model and tokenizer
 @st.cache_resource
 def load_model_and_tokenizer():
@@ -21,9 +25,9 @@ st.title("📰 News Sentiment Classifier")
 text_input = st.text_area("Enter a news headline or paragraph:", height=150)
 
 if st.button("Predict"):
-    if user_input.strip():
+    if text_input.strip():
         # Preprocess input
-        seq = tokenizer.texts_to_sequences([user_input])
+        seq = tokenizer.texts_to_sequences([text_input])
         padded = pad_sequences(seq, maxlen=MAX_SEQUENCE_LENGTH)
 
         # Predict
