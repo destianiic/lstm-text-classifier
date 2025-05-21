@@ -1,9 +1,9 @@
 import streamlit as st
 from huggingface_hub import hf_hub_download
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 import joblib
 import numpy as np
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+# from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Constants
 MAX_SEQUENCE_LENGTH = 250
