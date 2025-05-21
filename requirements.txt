@@ -1,6 +1,1 @@
 streamlit
-tensorflow
-numpy
-joblib
-huggingface_hub
-scikit-learn
