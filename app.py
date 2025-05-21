@@ -1,17 +1,20 @@
 import streamlit as st
 from huggingface_hub import hf_hub_download
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import joblib
 import numpy as np
 
 # Constants
+MAX_SEQUENCE_LENGTH = 250
 class_labels = ['Negative', 'Neutral', 'Positive']
 
 # Load model and tokenizer
 @st.cache_resource
 def load_model_and_tokenizer():
-    model_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="model.pkl")
+    model_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="model.h5")
     tokenizer_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="tokenizer.pkl")
-    model = joblib.load(model_path)
+    model = load_model(model_path)
     tokenizer = joblib.load(tokenizer_path)
     return model, tokenizer
 
@@ -19,14 +22,18 @@ model, tokenizer = load_model_and_tokenizer()
 
 # Streamlit UI
 st.title("📰 News Sentiment Classifier")
-text_input = st.text_area("Enter a news headline or paragraph:", height=150)
+st.markdown("Classify the sentiment of a news headline or paragraph as **Negative**, **Neutral**, or **Positive**.")
+
+text_input = st.text_area("Enter text:", height=150)
 
 if st.button("Predict"):
     if text_input.strip():
+        # Preprocess input
         seq = tokenizer.texts_to_sequences([text_input])
-        padded = tokenizer.pad_sequences(seq, maxlen=250)  # Adjust this based on your tokenizer
+        padded = pad_sequences(seq, maxlen=MAX_SEQUENCE_LENGTH)
 
-        prediction = model.predict_proba(padded)
+        # Predict
+        prediction = model.predict(padded)
         class_idx = np.argmax(prediction)
         class_label = class_labels[class_idx]
         confidence = prediction[0][class_idx]
