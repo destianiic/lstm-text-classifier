@@ -1,5 +1,4 @@
 import streamlit as st
-from huggingface_hub import hf_hub_download
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import joblib
@@ -12,10 +11,8 @@ class_labels = ['Negative', 'Neutral', 'Positive']
 # Load model and tokenizer
 @st.cache_resource
 def load_model_and_tokenizer():
-    model_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="model.h5")
-    tokenizer_path = hf_hub_download(repo_id="destianiic/lstm-model", filename="tokenizer.pkl")
-    model = load_model(model_path)
-    tokenizer = joblib.load(tokenizer_path)
+    model = load_model("model/model.h5")
+    tokenizer = joblib.load("model/tokenizer.pkl")
     return model, tokenizer
 
 model, tokenizer = load_model_and_tokenizer()
@@ -24,7 +21,7 @@ model, tokenizer = load_model_and_tokenizer()
 st.title("📰 News Sentiment Classifier")
 st.markdown("Classify the sentiment of a news headline or paragraph as **Negative**, **Neutral**, or **Positive**.")
 
-text_input = st.text_area("Enter text:", height=150)
+text_input = st.text_area("Enter your news text below:", height=150)
 
 if st.button("Predict"):
     if text_input.strip():
@@ -38,6 +35,6 @@ if st.button("Predict"):
         class_label = class_labels[class_idx]
         confidence = prediction[0][class_idx]
 
-        st.success(f"Predicted sentiment: **{class_label}** (Confidence: {confidence:.2f})")
+        st.success(f"🧠 **Predicted sentiment:** {class_label}  \n🔍 **Confidence:** {confidence:.2f}")
     else:
-        st.warning("Please enter some text.")
+        st.warning("⚠️ Please enter some text before clicking Predict.")
